@@ -1,10 +1,8 @@
 package backend
 
 import (
-	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/jasonlimantoro/hello-microservice/internal/helloworld"
 	pb "github.com/jasonlimantoro/hello-microservice/internal/helloworld/proto"
@@ -19,10 +17,7 @@ func Route() {
 	})
 
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		defer helloworldServerCtx.Conn.Close()
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		response, _ := helloworldServerCtx.Client.SayHello(ctx, &pb.HelloRequest{Name: "Jeff"})
+		response, _ := helloworldServerCtx.Client.SayHello(r.Context(), &pb.HelloRequest{Name: "Jeff"})
 		fmt.Fprintf(w, "Backend says: %s", response.GetMessage())
 	})
 }
