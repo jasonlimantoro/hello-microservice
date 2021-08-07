@@ -1,4 +1,4 @@
-package rest
+package math
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 func Route() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		msg := hello.GetHello("helloworld package")
+		msg := hello.GetHello("math package")
 		fmt.Fprintln(w, msg)
 	})
 }
