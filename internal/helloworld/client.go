@@ -26,6 +26,11 @@ func (cl Client) SayHello(ctx context.Context, name string) string {
 	return response.GetMessage()
 }
 
+func (cl Client) SayBye(ctx context.Context, name string) string {
+	response, _ := cl.GreeterClient.SayBye(ctx, &pb.ByeRequest{Name: name})
+	return response.GetMessage()
+}
+
 func createConn() (*grpc.ClientConn, error) {
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {

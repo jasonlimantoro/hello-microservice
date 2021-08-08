@@ -12,10 +12,11 @@ type Server struct {
 }
 
 func (s *Server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Printf("Received: %v", in.GetName())
+	log.Printf("SayHello Received: %v", in.GetName())
 	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
 
-func (s *Server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello Again " + in.GetName()}, nil
+func (s *Server) SayBye(ctx context.Context, in *pb.ByeRequest) (*pb.ByeReply, error) {
+	log.Printf("SayBye Received: %v", in.GetName())
+	return &pb.ByeReply{Message: "Bye " + in.GetName()}, nil
 }
