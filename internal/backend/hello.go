@@ -33,7 +33,7 @@ type helloworldClienter interface {
 }
 
 type helloRequest struct {
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required"`
 }
 
 type helloResponse struct {
