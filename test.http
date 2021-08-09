@@ -1,0 +1,21 @@
+GET http://localhost:8000
+
+
+###
+POST http://localhost:8000/checkout
+Content-Type: application/json
+
+{
+	"email": "jasoncobalagi@gmail.com",
+	"address": "Newton Street"
+}
+
+
+###
+
+POST http://localhost:8000/hello
+Content-Type: application/json
+
+{
+	"name": "John"
+}
