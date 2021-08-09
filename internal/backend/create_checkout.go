@@ -2,12 +2,10 @@ package backend
 
 import (
 	"context"
-	"log"
 	"net/http"
 
 	"github.com/jasonlimantoro/hello-microservice/pkg"
 	"github.com/jasonlimantoro/hello-microservice/pkg/dto"
-	"github.com/mitchellh/mapstructure"
 )
 
 func CreateHandlerCreateCheckout(svcCtx CreateCheckoutServiceContext) http.HandlerFunc {
@@ -15,11 +13,7 @@ func CreateHandlerCreateCheckout(svcCtx CreateCheckoutServiceContext) http.Handl
 	return pkg.CreateHandler(svcCtx, &createCheckoutRequest, pkg.DecodeJSON, pkg.EncodeJSON, CreateCheckout)
 }
 func CreateCheckout(ctx context.Context, request interface{}) interface{} {
-	var req createCheckoutRequest
-	err := mapstructure.Decode(request, &req)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	var req = request.(*createCheckoutRequest)
 	svcCtx := pkg.SvcCtxFromCtx(ctx).(CreateCheckoutServiceContext)
 	created := svcCtx.checkoutClient.Create(ctx, dto.Checkout{Email: req.Email, Address: req.Address})
 	return createCheckoutResponse{Email: created.Email, Address: req.Address}
