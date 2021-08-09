@@ -33,6 +33,6 @@ type createCheckoutRequest struct {
 
 type createCheckoutResponse struct {
 	ID      uint32 `json:"id"`
-	Address string `json:"address" validate:"required"`
-	Email   string `json:"email" validate:"email,required"`
+	Address string `json:"address"`
+	Email   string `json:"email"`
 }
