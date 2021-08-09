@@ -9,7 +9,14 @@ import (
 )
 
 func CreateHandlerHello(svcCtx HelloServiceContext) http.HandlerFunc {
-	return pkg.CreateHandler(svcCtx, pkg.DecodeJSON, pkg.EncodeJSON, Hello)
+	var req helloRequest
+	return pkg.CreateHandler(
+		svcCtx,
+		&req,
+		pkg.DecodeJSON,
+		pkg.EncodeJSON,
+		Hello,
+	)
 }
 func Hello(ctx context.Context, request interface{}) interface{} {
 	var req helloRequest

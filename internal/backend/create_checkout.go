@@ -11,7 +11,8 @@ import (
 )
 
 func CreateHandlerCreateCheckout(svcCtx CreateCheckoutServiceContext) http.HandlerFunc {
-	return pkg.CreateHandler(svcCtx, pkg.DecodeJSON, pkg.EncodeJSON, CreateCheckout)
+	var createCheckoutRequest createCheckoutRequest
+	return pkg.CreateHandler(svcCtx, &createCheckoutRequest, pkg.DecodeJSON, pkg.EncodeJSON, CreateCheckout)
 }
 func CreateCheckout(ctx context.Context, request interface{}) interface{} {
 	var req createCheckoutRequest
@@ -32,11 +33,11 @@ type checkoutClient interface {
 }
 
 type createCheckoutRequest struct {
-	Address string `json:"address"`
-	Email   string `json:"email"`
+	Address string `json:"address" validate:"required"`
+	Email   string `json:"email" validate:"email,required"`
 }
 
 type createCheckoutResponse struct {
-	Address string `json:"address"`
-	Email   string `json:"email"`
+	Address string `json:"address" validate:"required"`
+	Email   string `json:"email" validate:"email,required"`
 }

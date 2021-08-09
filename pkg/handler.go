@@ -18,16 +18,27 @@ func SvcCtxFromCtx(ctx context.Context) interface{} {
 
 func CreateHandler(
 	svcCtx interface{},
+	requestObjectPtr interface{},
 	decode func(io.Reader, interface{}) error,
 	encode func(io.Writer, interface{}) error,
 	endpoint Endpoint,
 ) http.HandlerFunc {
+	type ErrorResponse struct {
+		Error string `json:"error"`
+	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		var decoded interface{}
-		decode(r.Body, &decoded)
+		decode(r.Body, requestObjectPtr)
 		newContext := context.WithValue(r.Context(), svcCtxKey, svcCtx)
-		rtn := endpoint(newContext, decoded)
+
+		w.Header().Add("Content-Type", "application/json")
+
+		if err := Validate(newContext, requestObjectPtr); err != nil {
+			errorResponse := ErrorResponse{Error: err.Error()}
+			encode(w, errorResponse)
+			return
+		}
+		rtn := endpoint(newContext, requestObjectPtr)
 		encode(w, rtn)
 	}
 }
