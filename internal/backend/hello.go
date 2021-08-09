@@ -14,7 +14,7 @@ func CreateHandlerHello(svcCtx HelloServiceContext) http.HandlerFunc {
 func Hello(ctx context.Context, request interface{}) interface{} {
 	var req helloRequest
 	mapstructure.Decode(request, &req)
-	svcCtx := ctx.Value(pkg.SvcCtxKey).(HelloServiceContext)
+	svcCtx := pkg.SvcCtxFromCtx(ctx).(HelloServiceContext)
 	return helloResponse{Message: svcCtx.helloworldClient.SayHello(ctx, req.Name)}
 }
 

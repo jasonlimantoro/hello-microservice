@@ -8,9 +8,13 @@ import (
 
 type Endpoint = func(ctx context.Context, request interface{}) (response interface{})
 
-type SvcCtxKeyType string
+type svcCtxKeyType string
 
-const SvcCtxKey SvcCtxKeyType = "svcCtx"
+const svcCtxKey svcCtxKeyType = "svcCtx"
+
+func SvcCtxFromCtx(ctx context.Context) interface{} {
+	return ctx.Value(svcCtxKey)
+}
 
 func CreateHandler(
 	svcCtx interface{},
@@ -22,7 +26,7 @@ func CreateHandler(
 	return func(w http.ResponseWriter, r *http.Request) {
 		var decoded interface{}
 		decode(r.Body, &decoded)
-		newContext := context.WithValue(r.Context(), SvcCtxKey, svcCtx)
+		newContext := context.WithValue(r.Context(), svcCtxKey, svcCtx)
 		rtn := endpoint(newContext, decoded)
 		encode(w, rtn)
 	}
