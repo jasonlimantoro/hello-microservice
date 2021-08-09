@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 
 	"github.com/jasonlimantoro/hello-microservice/internal/helloworld"
 	pb "github.com/jasonlimantoro/hello-microservice/internal/helloworld/proto"
@@ -12,9 +11,8 @@ import (
 )
 
 func main() {
-	TCP_PORT := strconv.Itoa(3000)
-	fmt.Println("Listening tcp on port " + TCP_PORT)
-	lis, _ := net.Listen("tcp", ":"+TCP_PORT)
+	fmt.Println("Listening on " + helloworld.CONN_ADDR)
+	lis, _ := net.Listen("tcp", ":"+helloworld.CONN_PORT)
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &helloworld.Server{})
 	log.Fatal(s.Serve(lis))

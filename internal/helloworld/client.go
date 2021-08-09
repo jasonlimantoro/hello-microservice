@@ -9,7 +9,9 @@ import (
 )
 
 const (
-	address = "localhost:3000"
+	CONN_HOST = "localhost"
+	CONN_PORT = "3000"
+	CONN_ADDR = CONN_HOST + ":" + CONN_PORT
 )
 
 type ClientContext struct {
@@ -32,11 +34,11 @@ func (cl Client) SayBye(ctx context.Context, name string) string {
 }
 
 func createConn() (*grpc.ClientConn, error) {
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(CONN_ADDR, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to start gRPC connection: %v", err)
 	}
-	log.Printf("Connected to helloworld at %s", address)
+	log.Printf("Connected to helloworld at %s", CONN_ADDR)
 	return conn, err
 }
 

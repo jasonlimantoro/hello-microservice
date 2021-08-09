@@ -10,6 +10,12 @@ import (
 	"github.com/jasonlimantoro/hello-microservice/pkg"
 )
 
+const (
+	CONN_PORT = "8000"
+	CONN_HOST = "localhost"
+	CONN_ADDR = CONN_HOST + ":" + CONN_PORT
+)
+
 func Route() {
 	helloworldClientCtx := helloworld.NewClientContext()
 	checkoutClientContext := checkout.NewClientContext()

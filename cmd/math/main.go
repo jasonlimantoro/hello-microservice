@@ -3,14 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/jasonlimantoro/hello-microservice/internal/math"
 )
 
 func main() {
-	PORT := strconv.Itoa(8001)
 	math.Route()
-	fmt.Println("Listening on port " + PORT)
-	http.ListenAndServe(":"+PORT, nil)
+	fmt.Println("Listening on " + math.CONN_ADDR)
+	http.ListenAndServe(math.CONN_ADDR, nil)
 }
