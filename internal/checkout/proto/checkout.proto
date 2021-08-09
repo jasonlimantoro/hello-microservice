@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "github.com/jasonlimantoro/hello-microservice/internal/checkout/proto";
+
+package proto;
+
+service CheckoutService {
+  rpc Create (CreateCheckoutRequest) returns (Checkout) {}
+}
+
+message CreateCheckoutRequest {
+	string email = 2;
+	string address = 3;
+}
+
+message Checkout {
+    uint32 id = 1;
+    string email = 2;
+	string address = 3;
+}
