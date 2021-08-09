@@ -16,7 +16,7 @@ func CreateCheckout(ctx context.Context, request interface{}) interface{} {
 	var req = request.(*createCheckoutRequest)
 	svcCtx := pkg.SvcCtxFromCtx(ctx).(CreateCheckoutServiceContext)
 	created := svcCtx.checkoutClient.Create(ctx, dto.Checkout{Email: req.Email, Address: req.Address})
-	return createCheckoutResponse{Email: created.Email, Address: req.Address}
+	return createCheckoutResponse{ID: created.Id, Email: created.Email, Address: created.Address}
 }
 
 type CreateCheckoutServiceContext struct {
@@ -32,6 +32,7 @@ type createCheckoutRequest struct {
 }
 
 type createCheckoutResponse struct {
+	ID      uint32 `json:"id"`
 	Address string `json:"address" validate:"required"`
 	Email   string `json:"email" validate:"email,required"`
 }
