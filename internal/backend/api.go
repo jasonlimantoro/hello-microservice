@@ -15,5 +15,5 @@ func Route() {
 		fmt.Fprintln(w, msg)
 	})
 
-	http.HandleFunc("/hello", createHandleHello(HelloServiceContext{helloworldClient: helloworldClientCtx.Client}))
+	http.HandleFunc("/hello", CreateHandlerHello(HelloServiceContext{helloworldClient: helloworldClientCtx.Client}))
 }

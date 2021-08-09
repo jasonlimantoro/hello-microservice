@@ -7,13 +7,13 @@ import (
 	"github.com/jasonlimantoro/hello-microservice/pkg"
 )
 
-func createHandleHello(svcCtx HelloServiceContext) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		decoded := &helloRequest{}
-		pkg.DecodeJSON(r.Body, decoded)
-		response := svcCtx.helloworldClient.SayHello(r.Context(), decoded.Name)
-		pkg.EncodeJSON(w, helloResponse{Message: response})
-	}
+func CreateHandlerHello(svcCtx HelloServiceContext) http.HandlerFunc {
+	return pkg.CreateHandler(svcCtx, pkg.DecodeJSON, pkg.EncodeJSON, Hello)
+}
+func Hello(ctx context.Context, request interface{}) interface{} {
+	req := request.(helloRequest)
+	svcCtx := ctx.Value(pkg.SvcCtxKey).(HelloServiceContext)
+	return helloResponse{Message: svcCtx.helloworldClient.SayHello(ctx, req.Name)}
 }
 
 type HelloServiceContext struct {
