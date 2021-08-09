@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/jasonlimantoro/hello-microservice/pkg"
-	"github.com/mitchellh/mapstructure"
 )
 
 func CreateHandlerHello(svcCtx HelloServiceContext) http.HandlerFunc {
@@ -19,8 +18,7 @@ func CreateHandlerHello(svcCtx HelloServiceContext) http.HandlerFunc {
 	)
 }
 func Hello(ctx context.Context, request interface{}) interface{} {
-	var req helloRequest
-	mapstructure.Decode(request, &req)
+	var req = request.(*helloRequest)
 	svcCtx := pkg.SvcCtxFromCtx(ctx).(HelloServiceContext)
 	return helloResponse{Message: svcCtx.helloworldClient.SayHello(ctx, req.Name)}
 }
